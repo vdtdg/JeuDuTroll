@@ -1,13 +1,13 @@
 # Objectifs
-- Implémenter la stratégie prudente
-- Implémenter une ou plusieurs stratégie personnalisées
-- Créer une interface graphique permettant l'affichage de résultats de stratégie.
+- Implémenter la stratégie prudente  
+- Implémenter une ou plusieurs stratégie personnalisées  
+- Créer une interface graphique permettant l'affichage de résultats de stratégie.  
 
 # Installation de Pygame
  Sur Windows :  
 ``python3 -m pip install pygame``
 
-Sur Unix : 
+Sur Unix :  
 ``pip install pygame``
 
 
