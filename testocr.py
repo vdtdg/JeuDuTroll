@@ -22,7 +22,7 @@ pygame.display.flip()
 clock = pygame.time.Clock()
 continuer = 1
 while continuer:
-    clock.tick(60) # Pas plus de 60 FPS
+    clock.tick(60)  # Pas plus de 60 FPS
     for event in pygame.event.get():  # Attente des événements
         if event.type == QUIT:
             continuer = 0
