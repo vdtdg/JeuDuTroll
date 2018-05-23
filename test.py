@@ -1,6 +1,7 @@
 #import pygame
 import troll
-import strategies
+from strategies import *
+
 
 def partieManuelle():
     # Exemple de partie "manuelle"
@@ -16,8 +17,6 @@ def partieManuelle():
     print(p)
     p.tourDeJeu(1, 2)
     print(p)
-
-
 
 
 def main():
