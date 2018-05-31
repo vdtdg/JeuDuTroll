@@ -42,4 +42,5 @@ def renvoieUn(partie, partiesPrecedentes):
 
 
 def renvoieAlea(partie=None, partiesPrecedentes=None):
-    return floor(random.random() * 5)
+    return random.randint(1, partie.stockGauche)
+
