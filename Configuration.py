@@ -29,21 +29,21 @@ class Configuration:
         elif y == x and t == 0:
             self.g_opt = 0
 
-    @staticmethod
-    def get_min_g(table_locale):
+    def get_min_g(self, table_locale):
         minimum = table_locale[1, 1]
-        for valeur in table_locale:
-                minimum = min(minimum, table_locale[valeur])
+        for cle in table_locale:
+                minimum = min(minimum, table_locale[cle])
         return minimum
 
-    @staticmethod
-    def get_max_g(table_locale):
+    def get_max_g(self, table_locale):
         maximum = table_locale[1, 1]
-        for valeur in table_locale:
-                maximum = max(maximum, table_locale[valeur])
+        for cle in table_locale:
+                maximum = max(maximum, table_locale[cle])
         return maximum
 
     def calc_gs_opt(self, table_conf):
+        cond = self.x == 3 and self.y == 3 and self.t == 0
+
         # Tout d'abord, on crée notre table 'locale' de g_opt correspondant à tous les prochains coups possibles
         table_locale = dict()
         for pierre_jete_par_x in range(1, self.x + 1):
@@ -63,52 +63,56 @@ class Configuration:
                 table_locale[pierre_jete_par_x, pierre_jete_par_y] = table_conf[self.x - pierre_jete_par_x, self.y - pierre_jete_par_y, troll].g_opt
 
         # On crée un problème linéaire de maximisation avec PuLP
-        pnle = pulp.LpProblem(pulp.LpMaximize)
+        plne = pulp.LpProblem("calc", pulp.LpMaximize)
 
         # Déclaration de toutes les variables (qui seront nos probabilités de strategie mixte). avec 1 <= i <= self.x,
         # on a 0 <= pi <= 1
-        pnle_vars = []
+        plne_vars = dict()
         for i in range(1, self.x + 1):
-            pnle_vars.append(pulp.LpVariable("p"+str(i), lowBound=0, upBound=1))
+            plne_vars[i] = pulp.LpVariable("p"+str(i), lowBound=0, upBound=1)
 
-        g_min = Configuration.get_min_g(table_locale)
-        g_max = Configuration.get_max_g(table_locale)
-        g_opt = pulp.LpVariable("g_opt", lowBound=g_min, upBound=g_max)
+        g_min = self.get_min_g(table_locale)
+        g_max = self.get_max_g(table_locale)
+        g_opt = pulp.LpVariable("gain_opt", lowBound=g_min, upBound=g_max)
 
         # On rajoute au problème notre objectif
-        pnle += g_opt
+        plne += g_opt
 
         # Il faut maintenant ajouter toutes les contraintes.
         # cl pour combinaison lineaire
         for j in range(1, self.y + 1):
             cl = 0
             for i in range(1, self.x + 1):
-                cl += table_locale[i, j] * pnle_vars[i-1]  # A RE RE RE VERIFIER
-            pnle += g_opt <= cl
+                cl += table_locale[i, j] * plne_vars[i]  # A RE RE RE VERIFIER
+            plne += cl >= g_opt
 
         # Rappel2 : la somme des proba = 1
         somme_proba = 0
-        for k in pnle_vars:
-            somme_proba += k
-        pnle += somme_proba == 1
+        for k in plne_vars:
+            somme_proba += plne_vars[k]
+        plne += somme_proba == 1
 
-        # Definition of the problem is over, now let's solve it.
-        pnle.solve()
-        # print("Status:", pulp.LpStatus[pnle.status])
+        # Après avoir défini le problème, on le résout.
+        plne.solve()
 
-        # Finally, we store the results in the object.
-        self.g_opt = pulp.value(pnle.objective)
-        self.s_opt = []
-        for k in pnle_vars:
-            self.s_opt.append(k.varValue)
+        # Finalement, on récupère les résultats
+        self.g_opt = pulp.value(plne.objective)
+        self.s_opt = dict()
+        for k in plne_vars:
+            self.s_opt[k] = plne_vars[k].varValue
         print(self.__str__())
 
     def __str__(self):
         return "Configuration: x:{}, y:{}, t:{}, g_opt:{}, s_opt:{}".format(self.x, self.y, self.t, self.g_opt, self.s_opt)
 
 
+def debug(cond, message):
+    if cond:
+        print(message)
+
+
 def main():
-    N = 3
+    N = 15
     M = 7
     Mp = M // 2
     table = dict()
@@ -121,8 +125,8 @@ def main():
                 # print(table[i, j, k].__str__())
 
     # Puis on calcule le g_opt et s_opt de toutes les configurations en allant des plus petites aux plus grandes.
-    for y in range(2, N + 1):
-        for x in range(2, N + 1):
+    for x in range(2, N + 1):
+        for y in range(2, N + 1):
             for t in range(-Mp + 1, Mp):
                 # print("Calcul de g_opt et s_opt pour i={}, j={}, k={}".format(i, j, k))
                 # if table[i, j, k] == "n/c":
