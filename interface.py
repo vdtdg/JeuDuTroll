@@ -9,13 +9,12 @@ class Interface():
         texte_debut = Label(fenetre, text="Choisis les paramétres que tu souhaites puis lance la simulation\n")
         texte_debut.pack()
 
-        #Images
+        # Images
         self.graph = PhotoImage(file="troll.png")
         self.label = Label(fenetre, image=self.graph)
         self.label.pack()
 
-
-        #cadres pour la mise en page
+        # Cadres pour la mise en page
         cadre_simulation = Frame(fenetre)
         cadre_simulation.pack()
 
@@ -25,9 +24,7 @@ class Interface():
         cadre_strategie = Frame(cadre_simulation, width=768, height=576, borderwidth=20)
         cadre_strategie.grid(row=0, column=0)
 
-
-
-        #Imput nombre de partie
+        # Imput nombre de partie
         label_nb_partie = Label(cadre_parametre, text="Nombre de partie :")
         label_nb_partie.grid(row=0, column=0)
 
@@ -35,8 +32,7 @@ class Interface():
         saisie_nb_partie = Entry(cadre_parametre, textvariable=nb_partie, width=5)
         saisie_nb_partie.grid(row=0, column=1)
 
-
-        #Imput nombre de pierre
+        # Imput nombre de pierre
         label_nb_pierre = Label(cadre_parametre, text="Nombre de pierre par joueur :")
         label_nb_pierre.grid(row=1, column=0)
 
@@ -44,8 +40,7 @@ class Interface():
         saisie_nb_pierre = Entry(cadre_parametre, textvariable=nb_pierre, width=5)
         saisie_nb_pierre.grid(row=1, column=1)
 
-
-        #Imput nombre de case
+        # Imput nombre de case
         label_nb_case = Label(cadre_parametre, text="Nombre de case entre les chateaux :")
         label_nb_case.grid(row=2, column=0)
 
@@ -53,8 +48,7 @@ class Interface():
         saisie_nb_case = Entry(cadre_parametre, textvariable=nb_case, width=5)
         saisie_nb_case.grid(row=2, column=1)
 
-
-        #Listes déroulantes pour les strategies des joueurs
+        # Listes déroulantes pour les strategies des joueurs
         liste_strategie = ("Strategie prudente", "Strategie aléatoire")
 
         label_strategie_j1 = Label(cadre_strategie, text="Strategie joueur 1 :")
@@ -73,7 +67,7 @@ class Interface():
         bouton_lancer.grid(row=1, column=0, columnspan=2)
 
     def lancer_simulation(self):
-        #TODO
+        # TODO
         print("On a appuyer sur lancer")
 
 
