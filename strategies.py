@@ -1,6 +1,7 @@
 import random
 from math import floor
 
+
 def strategieValerianGauche(partie, partiesPrecedentes):
     stockActuel = partie.stockGauche
     if partie.stockDroite == partie.stockInitial / 2:
@@ -18,6 +19,7 @@ def strategieValerianDroit(partie, partiesPrecedentes):
 
 
 def strategiePrudente(partie, partiesPrecedentes):
+
     pass
 
 
