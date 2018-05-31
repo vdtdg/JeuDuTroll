@@ -67,7 +67,12 @@ def affiche_graphe(strat1,strat2,nb_parties):
     moy2 = moyenne(y2)
     labels = 'Joueur 1', 'Joueur 2', 'Match Nul'
     sizes = [moy1*100, moy2*100,0]
-    explode = (0, 0.1, 0) # decoupe seulement la part du joueur 2
+    if moy1 > moy2:
+        explode = (0.1, 0, 0)  # decoupe seulement la part du joueur 1
+    elif moy2 > moy1:
+        explode = (0, 0.1, 0)  # decoupe seulement la part du joueur 2
+    else:
+        explode = (0, 0, 0.1)  # decoupe seulement la part de match  nul
 
     plt.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',shadow=True, startangle=90)
     plt.axis('equal')
