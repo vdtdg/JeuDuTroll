@@ -42,40 +42,51 @@ def affiche_graphe(strat1,strat2,nb_parties):
     x = np.arange(0, nb_parties, 1)
     y1 = compte_win_j1(strat1, strat2, nb_parties)
     y2 = compte_win_j2(strat1, strat2, nb_parties)
-
-    plt.subplot(2, 1, 1)
     # Calcule la moyenne joueur 1 sur N parties
     y1_mean = [np.mean(y1)] * len(x)
-    fig, ax = plt.subplots()
-    # Plot J1
-    ligne_J1 = ax.plot(x, y1, label='Joueur 1', marker='o')
-    # Plot J2
-    ligne_J2 = ax.plot(x, y2, label='Joueur 2', marker='o')
+
+    # ------ Strategie 1 ------
+    plt.subplot(1, 2, 1)
+    # Plot J1 et J2
+    plt.plot(x, y1, label='Joueur 1', marker='o')
+    plt.plot(x, y2, label='Joueur 2', marker='o')
+
     # Plot la moyenne de la strategie
-    mean_line = ax.plot(x, y1_mean, label='Moy strat', linestyle='--')
+    plt.plot(x, y1_mean, label='Moy strat', linestyle='--')
     # Legende
-    legend = ax.legend(loc='upper right')
-    plt.xlabel('Nombre de parties jouées')
-    plt.ylabel('Gain')
+    legend = plt.legend(loc='upper right')
+    # Titre
     plt.title('Evolution de la stratégie 1 pour N parties')
+    plt.xlabel('Nombre de parties jouées')
+    plt.ylabel('Proba de gagner')
     plt.grid(True)
 
+    # ------ Pie Chart ------
+    plt.subplot(1, 2, 2)
+    moy1 = moyenne(y1)
+    moy2 = moyenne(y2)
+    labels = 'Joueur 1', 'Joueur 2', 'Match Nul'
+    sizes = [moy1*100, moy2*100,0]
+    explode = (0, 0.1, 0) # decoupe seulement la part du joueur 2
 
+    plt.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',shadow=True, startangle=90)
+    plt.axis('equal')
+    # Titre
+    plt.title('Recapitulatif')
+
+    # # ------ Strategie 2 ------
+    # plt.subplot(2, 1, 2)
+    # plt.plot(x, y1, label='Joueur 1', marker='o')
+    # # Titre
+    # plt.title('Evolution de la stratégie 2 pour N parties')
+    # plt.xlabel('Nombre de parties jouées')
+    # plt.ylabel('Proba de gagner')
+    # plt.grid(True)
+
+    # Affichage des graphiques
     plt.show()
-
-    # t1 = np.arange(0.0,nb_parties, 0.1)
-    # t2 = np.arange(0.0,nb_parties, 0.02)
-    #
-    # plt.figure(1)
-    # # premiere strategie
-    # plt.subplot(211)
-    # plt.plot(t1, f(t1,nb_parties), 'bo', t2, f(t2,nb_parties), 'k')
-    #
-    # #deuxieme strategie
-    # plt.subplot(212)
-    # plt.plot(t2, np.cos(2 * np.pi * t2), '-ok')
-    # plt.show()
 
 if __name__ == '__main__':
     # main()
-     affiche_graphe(strategieValerianGauche, strategieValerianDroit, 10)
+    # partieManuelle()
+     affiche_graphe(renvoieAlea,renvoieAlea,10)
