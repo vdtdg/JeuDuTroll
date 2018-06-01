@@ -4,7 +4,7 @@ import chart
 import strategies
 
 
-class Interface():
+class Interface:
 
     def __init__(self, fenetre):
 
@@ -30,7 +30,7 @@ class Interface():
         label_nb_partie = Label(cadre_parametre, text="Nombre de partie :")
         label_nb_partie.grid(row=0, column=0)
 
-        self.nb_partie = StringVar
+        self.nb_partie = StringVar()
         saisie_nb_partie = Entry(cadre_parametre, textvariable=self.nb_partie, width=5)
         saisie_nb_partie.grid(row=0, column=1)
 
@@ -38,7 +38,7 @@ class Interface():
         label_nb_pierre = Label(cadre_parametre, text="Nombre de pierre par joueur :")
         label_nb_pierre.grid(row=1, column=0)
 
-        self.nb_pierre = StringVar
+        self.nb_pierre = StringVar()
         saisie_nb_pierre = Entry(cadre_parametre, textvariable=self.nb_pierre, width=5)
         saisie_nb_pierre.grid(row=1, column=1)
 
@@ -46,7 +46,7 @@ class Interface():
         label_nb_case = Label(cadre_parametre, text="Nombre de case entre les chateaux :")
         label_nb_case.grid(row=2, column=0)
 
-        self.nb_case = StringVar
+        self.nb_case = StringVar()
         saisie_nb_case = Entry(cadre_parametre, textvariable=self.nb_case, width=5)
         saisie_nb_case.grid(row=2, column=1)
 
@@ -61,7 +61,7 @@ class Interface():
 
         label_strategie_j2 = Label(cadre_strategie, text="Strategie joueur 2 :")
         label_strategie_j2.grid(row=2, column=0)
-        self.strategie_j2 = StringVar
+        self.strategie_j2 = StringVar()
         liste_strategie_j2 = Combobox(cadre_strategie, textvariable=self.strategie_j2, values=liste_strategie, state='readonly')
         liste_strategie_j2.grid(row=3, column=0)
 
@@ -83,7 +83,10 @@ class Interface():
 
     def lancer_simulation(self):
         print("On a appuyé sur lancer")
-        chart.affiche_graphe(self.switch_strategie(self.strategie_j1), self.switch_strategie(self.strategie_j1), self.nb_partie, self.nb_pierre, self.nb_case)
+        chart.affiche_graphe(self.switch_strategie(self.strategie_j1.get()), self.switch_strategie(self.strategie_j1.get()), int(self.nb_partie.get()), int(self.nb_pierre.get()), int(self.nb_case.get()))
+        self.graph = PhotoImage(file="graph.png")
+        self.label = Label(fenetre1, image=self.graph)
+        self.label.pack()
 
 
 if __name__ == '__main__':

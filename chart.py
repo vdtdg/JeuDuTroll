@@ -65,7 +65,8 @@ def affiche_graphe(strat1, strat2, nb_parties, nb_pierre, nb_case):
     plt.title('Recapitulatif')
 
     # Affichage des graphiques
-    plt.show()
+    # plt.show()
+    plt.savefig('graph.png')
 
 
 if __name__ == '__main__':
