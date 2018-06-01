@@ -1,48 +1,37 @@
 import random
 from math import floor
 
-
-def strategieValerianGauche(partie, partiesPrecedentes):
-    stockActuel = partie.stockGauche
-    if partie.stockDroite == partie.stockInitial / 2:
-        return min(partie.stockDroite/2, stockActuel)
-    else:
-        return min(1, stockActuel)
-
-
-def strategieValerianDroit(partie, partiesPrecedentes):
-    stockActuel = partie.stockDroite
-    if partie.stockGauche == partie.stockInitial / 2:
-        return min(partie.stockGauche / 2, stockActuel)
-    else:
-        return min(2, stockActuel)
-
-
-def strategiePrudente(partie, partiesPrecedentes):
-
+def strategiePrudente(partie=None, partiesPrecedentes=None):
     pass
 
 
-def renvoieCinq(partie, partiesPrecedentes):
+def renvoieCinq(partie=None, partiesPrecedentes=None):
     return 5
 
 
-def renvoieQuatre(partie, partiesPrecedentes):
+def renvoieQuatre(partie=None, partiesPrecedentes=None):
     return 4
 
 
-def renvoieTrois(partie, partiesPrecedentes):
+def renvoieTrois(partie=None, partiesPrecedentes=None):
     return 3
 
 
-def renvoieDeux(partie, partiesPrecedentes):
+def renvoieDeux(partie=None, partiesPrecedentes=None):
     return 2
 
 
-def renvoieUn(partie, partiesPrecedentes):
+def renvoieUn(partie=None, partiesPrecedentes=None):
     return 1
 
 
 def renvoieAlea(partie=None, partiesPrecedentes=None):
     return random.randint(1, partie.stockGauche)
+
+
+def renvoieAleaMieux(partie=None, partiesPrecedentes=None):
+    if partie.stockGauche < 5:
+        return partie.stockGauche
+    else:
+        return random.randint(1, 5)
 
