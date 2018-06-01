@@ -12,7 +12,7 @@ class Interface:
         texte_debut.pack()
 
         # Images
-        self.graph = PhotoImage(file="troll.png")
+        self.graph = PhotoImage(file="graph.png")
         self.label = Label(fenetre, image=self.graph)
         self.label.pack()
 
@@ -84,8 +84,7 @@ class Interface:
     def lancer_simulation(self):
         print("On a appuyé sur lancer")
         chart.affiche_graphe(self.switch_strategie(self.strategie_j1.get()), self.switch_strategie(self.strategie_j1.get()), int(self.nb_partie.get()), int(self.nb_pierre.get()), int(self.nb_case.get()))
-        self.graph = PhotoImage(file="graph.png")
-        self.label = Label(fenetre1, image=self.graph)
+        self.graph.file = "graph.png"
         self.label.pack()
 
 
