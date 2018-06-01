@@ -70,4 +70,4 @@ def affiche_graphe(strat1, strat2, nb_parties, nb_pierre, nb_case):
 
 
 if __name__ == '__main__':
-    affiche_graphe(strategies.strategiePrudente, strategies.renvoieAlea, 100, 15, 7)
+    affiche_graphe(strategies.renvoieAleaMieux, strategies.renvoieAlea, 100, 15, 7)
