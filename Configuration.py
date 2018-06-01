@@ -97,13 +97,13 @@ def export_fichier(n, m, dict_a_sauv):
     for key in dict_a_sauv:
         dict_s_opt[key] = dict_a_sauv[key].s_opt
 
-    with open('data/{}-{}-{}.json'.format(n, n, m), 'wb') as conf_file:
+    with open('data/{}-{}-{}.conf'.format(n, n, m), 'wb') as conf_file:
         pickle.dump(dict_s_opt, conf_file)
 
 
 def main():
     N = 50
-    m = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    m = [9, 11, 13, 15]
     for M in m:
         # M = 7
         Mp = M // 2

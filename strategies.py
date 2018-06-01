@@ -1,8 +1,18 @@
 import random
-from math import floor
+import pickle
+import numpy as np
+
 
 def strategiePrudente(partie=None, partiesPrecedentes=None):
-    pass
+    n = partie.stockInitial
+    m = partie.nombreCases
+    with open('data/{}-{}-{}.json'.format(50, 50, m), 'rb') as conf_file:
+        a = pickle.load(conf_file)
+    p1 = partie.stockGauche
+    p2 = partie.stockDroite
+    t = partie.positionTroll
+    s_opt = a[p1, p2, t]
+    return np.random.choice(np.arange(1, p1, 1), p=s_opt)
 
 
 def renvoieCinq(partie=None, partiesPrecedentes=None):
