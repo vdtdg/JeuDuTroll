@@ -1,12 +1,4 @@
-# Objectifs
-- Implémenter la stratégie prudente  
-- Implémenter une ou plusieurs stratégie personnalisées  
-- Créer une interface graphique permettant l'affichage de résultats de stratégie.  
-
-# Installation de Pygame
- Sur Windows :  
-``python3 -m pip install pygame``
-
+# Théorie des jeux, jeu du troll.
 Sur Unix :  
 ``pip install pygame``
 
