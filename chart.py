@@ -1,35 +1,33 @@
 import troll
-from strategies import *
+import strategies
 import matplotlib.pyplot as plt
 import numpy as np
 
 
-def main():
-    p = troll.Partie(7, 15)
-
-    while p.gagnant == 0:
-        g = int(input("Nombre de pierre joueur gauche : "))
-        d = int(input("Nombre de pierre joueur droite : "))
-        p.tourDeJeu(g, d)
-        print(p)
+def resultat_parties(strat1, strat2, nb_partie, nb_pierre, nb_case):
+    resultats = []
+    for i in range(nb_partie):
+        resultats.append(troll.jouerPartie(nb_case, nb_pierre, strat1, strat2, affichageTexte=False))
+    return resultats
 
 
-def compte_win_j1_j2(strat1, strat2, nb_parties, nb_pierre, nb_case):
-    tab_1 = []
-    tab_2 = []
-    for i in range(nb_parties):
-        p = troll.jouerPartie(nb_case, nb_pierre, strat1, strat2)
-        if p.gagnant == 1:
-            tab_1.append(1)
-            tab_2.append(0)
-        elif p.gagnant == 2:
-            tab_2.append(1)
-            tab_1.append(0)
-        else:
-            tab_1.append(0)
-            tab_2.append(0)
+def compte_win_j1_j2_nul(resultats):
+    tab_j1 = []
+    tab_j2 = []
+    tab_j3 = []
+    c1, c2, c3 = 0, 0, 0
+    for i in range(len(resultats)):
+        if resultats[i].gagnant == 1:
+            c1 += 1
+        elif resultats[i].gagnant == 2:
+            c2 += 1
+        elif resultats[i].gagnant == 3:
+            c3 += 1
+        tab_j1.append(c1/(i+1))
+        tab_j2.append(c2/(i+1))
+        tab_j3.append(c3/(i+1))
 
-    return tab_1, tab_2
+    return tab_j1, tab_j2, tab_j3
 
 
 def moyenne(tableau):
@@ -39,58 +37,36 @@ def moyenne(tableau):
 def affiche_graphe(strat1, strat2, nb_parties, nb_pierre, nb_case):
     # Donnees
     x = np.arange(0, nb_parties, 1)
-    y1, y2 = compte_win_j1_j2(strat1, strat2, nb_parties, nb_pierre, nb_case)
-    # Calcule la moyenne joueur 1 sur N parties
-    y1_mean = [np.mean(y1)] * len(x)
+    resultat = resultat_parties(strat1, strat2, nb_parties, nb_pierre, nb_case)
+    y1, y2, y3 = compte_win_j1_j2_nul(resultat)
 
-    # ------ Strategie 1 ------
+    # ------ Graph ------
     plt.subplot(2, 1, 1)
     # Plot J1 et J2
-    plt.plot(x, y1, label='Joueur 1', marker='o')
-    plt.plot(x, y2, label='Joueur 2', marker='o')
+    plt.plot(x, y1, label='Joueur 1')
+    plt.plot(x, y2, label='Joueur 2')
+    plt.plot(x, y3, label='Match Nul')
 
-    # Plot la moyenne de la strategie
-    plt.plot(x, y1_mean, label='Moy strat', linestyle='--')
     # Legende
-    plt.legend(loc='upper right')
+    plt.legend(loc='best')
     # Titre
-    plt.title('Evolution de la stratégie 1 pour N parties')
+    plt.title('Evolution des résulats en fonction des stratégies des joueurs')
     plt.xlabel('Nombre de parties jouées')
-    plt.ylabel('Proba de gagner')
+    plt.ylabel('Taux de victoire')
     plt.grid(True)
 
     # ------ Pie Chart ------
     plt.subplot(2, 1, 2)
-    moy1 = moyenne(y1)
-    moy2 = moyenne(y2)
     labels = 'Joueur 1', 'Joueur 2', 'Match Nul'
-    sizes = [moy1*100, moy2*100, 0]
-    if moy1 > moy2:
-        explode = (0.1, 0, 0)  # decoupe seulement la part du joueur 1
-    elif moy2 > moy1:
-        explode = (0, 0.1, 0)  # decoupe seulement la part du joueur 2
-    else:
-        explode = (0, 0, 0.1)  # decoupe seulement la part de match  nul
-
-    plt.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
+    sizes = [y1[nb_parties-1], y2[nb_parties-1], y3[nb_parties-1]]
+    plt.pie(sizes, explode=None, labels=labels, autopct='%1.1f%%', shadow=False, startangle=270)
     plt.axis('equal')
     # Titre
     plt.title('Recapitulatif')
-
-    # # ------ Strategie 2 ------
-    # plt.subplot(2, 1, 2)
-    # plt.plot(x, y1, label='Joueur 1', marker='o')
-    # # Titre
-    # plt.title('Evolution de la stratégie 2 pour N parties')
-    # plt.xlabel('Nombre de parties jouées')
-    # plt.ylabel('Proba de gagner')
-    # plt.grid(True)
 
     # Affichage des graphiques
     plt.show()
 
 
 if __name__ == '__main__':
-    # main()
-    # partieManuelle()
-    affiche_graphe(renvoieAlea, renvoieAlea, 10, 15, 7)
+    affiche_graphe(strategies.renvoieAleaMieux, strategies.renvoieDeux, 1000, 15, 7)

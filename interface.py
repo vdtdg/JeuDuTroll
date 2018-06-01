@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter.ttk import Combobox
+import chart
+import strategies
 
 
 class Interface():
@@ -28,47 +30,60 @@ class Interface():
         label_nb_partie = Label(cadre_parametre, text="Nombre de partie :")
         label_nb_partie.grid(row=0, column=0)
 
-        nb_partie = StringVar
-        saisie_nb_partie = Entry(cadre_parametre, textvariable=nb_partie, width=5)
+        self.nb_partie = StringVar
+        saisie_nb_partie = Entry(cadre_parametre, textvariable=self.nb_partie, width=5)
         saisie_nb_partie.grid(row=0, column=1)
 
         # Imput nombre de pierre
         label_nb_pierre = Label(cadre_parametre, text="Nombre de pierre par joueur :")
         label_nb_pierre.grid(row=1, column=0)
 
-        nb_pierre = StringVar
-        saisie_nb_pierre = Entry(cadre_parametre, textvariable=nb_pierre, width=5)
+        self.nb_pierre = StringVar
+        saisie_nb_pierre = Entry(cadre_parametre, textvariable=self.nb_pierre, width=5)
         saisie_nb_pierre.grid(row=1, column=1)
 
         # Imput nombre de case
         label_nb_case = Label(cadre_parametre, text="Nombre de case entre les chateaux :")
         label_nb_case.grid(row=2, column=0)
 
-        nb_case = StringVar
-        saisie_nb_case = Entry(cadre_parametre, textvariable=nb_case, width=5)
+        self.nb_case = StringVar
+        saisie_nb_case = Entry(cadre_parametre, textvariable=self.nb_case, width=5)
         saisie_nb_case.grid(row=2, column=1)
 
         # Listes déroulantes pour les strategies des joueurs
-        liste_strategie = ("Strategie prudente", "Strategie aléatoire")
+        liste_strategie = ("Strategie prudente", "Strategie aléatoire", "Strategie aléatoire mieux", "Renvoie 5", "Renvoie 4", "Renvoie 3", "Renvoie 2", "Renvoie 1")
 
         label_strategie_j1 = Label(cadre_strategie, text="Strategie joueur 1 :")
         label_strategie_j1.grid(row=0, column=0)
-        strategie_j1 = StringVar()
-        liste_strategie_j1 = Combobox(cadre_strategie, textvariable=strategie_j1, values=liste_strategie, state='readonly')
+        self.strategie_j1 = StringVar()
+        liste_strategie_j1 = Combobox(cadre_strategie, textvariable=self.strategie_j1, values=liste_strategie, state='readonly')
         liste_strategie_j1.grid(row=1, column=0)
 
         label_strategie_j2 = Label(cadre_strategie, text="Strategie joueur 2 :")
         label_strategie_j2.grid(row=2, column=0)
-        strategie_j2 = StringVar
-        liste_strategie_j2 = Combobox(cadre_strategie, textvariable=strategie_j2, values=liste_strategie, state='readonly')
+        self.strategie_j2 = StringVar
+        liste_strategie_j2 = Combobox(cadre_strategie, textvariable=self.strategie_j2, values=liste_strategie, state='readonly')
         liste_strategie_j2.grid(row=3, column=0)
 
         bouton_lancer = Button(cadre_simulation, text="Lancer la simulation", command=self.lancer_simulation)
         bouton_lancer.grid(row=1, column=0, columnspan=2)
 
+    def switch_strategie(self, nomStrat):
+        switcher = {
+            "Strategie prudente": strategies.strategiePrudente,
+            "Strategie aléatoire": strategies.renvoieAlea,
+            "Strategie aléatoire mieux": strategies.renvoieAleaMieux,
+            "Renvoie 5": strategies.renvoieCinq,
+            "Renvoie 4": strategies.renvoieQuatre,
+            "Renvoie 3": strategies.renvoieTrois,
+            "Renvoie 2": strategies.renvoieDeux,
+            "Renvoie 1": strategies.renvoieUn
+        }
+        return switcher.get(nomStrat, strategies.renvoieUn)
+
     def lancer_simulation(self):
-        # TODO
-        print("On a appuyer sur lancer")
+        print("On a appuyé sur lancer")
+        chart.affiche_graphe(self.switch_strategie(self.strategie_j1), self.switch_strategie(self.strategie_j1), self.nb_partie, self.nb_pierre, self.nb_case)
 
 
 if __name__ == '__main__':
