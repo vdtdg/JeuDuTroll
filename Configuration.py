@@ -103,7 +103,7 @@ def export_fichier(n, m, dict_a_sauv):
 
 def main():
     N = 50
-    m = [9, 11, 13, 15]
+    m = [3, 5, 7, 9, 11, 13, 15]
     for M in m:
         # M = 7
         Mp = M // 2
