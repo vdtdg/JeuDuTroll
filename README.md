@@ -4,7 +4,8 @@
 Tkinter:  
 ``pip install tkinter``  
 Si cela ne fonctionne pas, sur debian:  
-``apt-get install python3-tk``  
+``sudo apt-get install python3-tk``    
+Attention, je crois que tkinter ne fonctionne pas sur les environnements virtuels python.  
 
 Matplotlib:   
 ``pip install matplotlib``  
@@ -25,11 +26,16 @@ Il suffit alors de changer la dernière ligne (l.73) pour changer la configurati
 *affiche_graphe(strategies.strategiePrudente, strategies.renvoieAlea, 100, 15, 7)*  
 Il est possible de trouver une liste des strategies existantes dans le fichier **strategie.py**.
 
+## Changer la liste de stratégies
+Les stratégies sont definies dans le fichier strategies.py selon les specifications du projet Troll.  
+Pour ajouter des stratégies, il suffit d'ajouter le nom de sa stratégie et la fonction associée dans le fichier strategies.py dans le dict de la fonction ``switch_strategie`` du fichier **interface.py**.  
+Il faut aussi ajouter le nom de la stratégie dans le tableau ``liste_strategie`` à la ligne 54 du fichier **interface.py**.
+
+
 ## Problèmes
 Quelques défauts existent et rendent certains résultats non viable.  
-Notamment sur la stratégie prudente : celle-ci met du temps à s'executer, une optimisation est possible lors du calcul des configurations.  
-De plus, les arrondis de calculs font que, plusieurs fois, la somme des probabilités n'est pas tout à fait égale à 1, ce qui cause un bug pour numpy qui calcule le random, faisant perdre la partie à la stratégie prudente et donc faussant les résultats.
+Notamment sur la stratégie prudente : les arrondis de calculs font que, plusieurs fois, la somme des probabilités n'est pas tout à fait égale à 1, ce qui cause un bug pour numpy qui calcule le random, faisant perdre la partie à la stratégie prudente et donc faussant les résultats.  
+Néanmoins, cela arrive assez peu souvent (<5%)  
 
-L'interface graphique a du mal à afficher le graphique correctement. Une modification s'impose...
 
  

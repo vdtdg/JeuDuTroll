@@ -8,11 +8,11 @@ class Interface:
 
     def __init__(self, fenetre):
 
-        texte_debut = Label(fenetre, text="Choisis les paramétres que tu souhaites puis lance la simulation\n")
+        texte_debut = Label(fenetre, text="Choisissez les paramétres, puis lancez la simulation\n")
         texte_debut.pack()
 
         # Images
-        self.graph = PhotoImage(file="graph.png")
+        self.graph = PhotoImage(file="troll.png")
         self.label = Label(fenetre, image=self.graph)
         self.label.pack()
 
@@ -51,7 +51,7 @@ class Interface:
         saisie_nb_case.grid(row=2, column=1)
 
         # Listes déroulantes pour les strategies des joueurs
-        liste_strategie = ("Strategie prudente", "Strategie aléatoire", "Strategie aléatoire mieux", "Renvoie 5", "Renvoie 4", "Renvoie 3", "Renvoie 2", "Renvoie 1")
+        liste_strategie = ("Strategie prudente", "Strategie prudente Pascal", "Strategie aléatoire", "Strategie aléatoire mieux", "Renvoie 5", "Renvoie 4", "Renvoie 3", "Renvoie 2", "Renvoie 1")
 
         label_strategie_j1 = Label(cadre_strategie, text="Strategie joueur 1 :")
         label_strategie_j1.grid(row=0, column=0)
@@ -71,6 +71,7 @@ class Interface:
     def switch_strategie(self, nomStrat):
         switcher = {
             "Strategie prudente": strategies.strategiePrudente,
+            "Strategie prudente Pascal": strategies.strategiePrudentePascal,
             "Strategie aléatoire": strategies.renvoieAlea,
             "Strategie aléatoire mieux": strategies.renvoieAleaMieux,
             "Renvoie 5": strategies.renvoieCinq,
@@ -82,10 +83,11 @@ class Interface:
         return switcher.get(nomStrat, strategies.renvoieUn)
 
     def lancer_simulation(self):
-        print("On a appuyé sur lancer")
+        print("Debug : On a appuyé sur le bouton lancer")
         chart.affiche_graphe(self.switch_strategie(self.strategie_j1.get()), self.switch_strategie(self.strategie_j1.get()), int(self.nb_partie.get()), int(self.nb_pierre.get()), int(self.nb_case.get()))
-        self.graph.file = "graph.png"
-        self.label.pack()
+        newImage = PhotoImage(file="graph.png")
+        self.label.configure(image=newImage)
+        self.label.image = newImage
 
 
 if __name__ == '__main__':

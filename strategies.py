@@ -12,13 +12,22 @@ def strategiePrudente(partie=None, partiesPrecedentes=None):
     p2 = partie.stockDroite
     t = partie.positionTroll
     s_opt = a[p1 + 2, p2 + 2, t - (m//2)]
-    # Transformation de s_opt en tableau... Grmmmbl
-    s_opt_tab = []
-    for key in s_opt:
-        s_opt_tab.append(s_opt[key])
-    s_opt_tab.pop()
-    s_opt_tab.pop()
-    a = np.random.choice(np.arange(1, p1+1, 1), p=s_opt_tab)
+    s_opt.pop()
+    s_opt.pop()
+    a = np.random.choice(np.arange(1, p1+1, 1), p=s_opt)
+    return int(a)
+
+
+def strategiePrudentePascal(partie=None, partiesPrecedentes=None):
+    n = partie.stockInitial
+    m = partie.nombreCases
+    with open('data/{}-{}-{}.pascal'.format(50, 50, m), 'rb') as conf_file:
+        a = pickle.load(conf_file)
+    p1 = partie.stockGauche
+    p2 = partie.stockDroite
+    t = partie.positionTroll
+    s_opt = a[p1, p2, t - (m//2)]
+    a = np.random.choice(np.arange(1, p1+1, 1), p=s_opt)
     return int(a)
 
 

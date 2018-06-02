@@ -50,7 +50,7 @@ def affiche_graphe(strat1, strat2, nb_parties, nb_pierre, nb_case):
     # Legende
     plt.legend(loc='best')
     # Titre
-    plt.title('Evolution des résulats en fonction des stratégies des joueurs')
+    plt.title('Evolution du taux de victoires en fonction du nombre de parties.')
     plt.xlabel('Nombre de parties jouées')
     plt.ylabel('Taux de victoire')
     plt.grid(True)
@@ -65,9 +65,10 @@ def affiche_graphe(strat1, strat2, nb_parties, nb_pierre, nb_case):
     plt.title('Recapitulatif')
 
     # Affichage des graphiques
-    plt.show()
-    #plt.savefig('graph.png')
+    # plt.show()
+    plt.savefig('graph.png')
+    plt.clf()
 
 
 if __name__ == '__main__':
-    affiche_graphe(strategies.renvoieAleaMieux, strategies.renvoieAlea, 100, 15, 7)
+    affiche_graphe(strategies.renvoieAlea, strategies.renvoieAleaMieux, 100, 15, 7)

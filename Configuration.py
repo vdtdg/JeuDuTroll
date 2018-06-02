@@ -82,9 +82,9 @@ class Configuration:
 
         # Finalement, on récupère les résultats
         self.g_opt = pulp.value(plne.objective)
-        self.s_opt = dict()
+        self.s_opt = []
         for k in plne_vars:
-            self.s_opt[k] = plne_vars[k].varValue
+            self.s_opt.append(plne_vars[k].varValue)
         # print(self.__str__())
 
     def __str__(self):
@@ -92,10 +92,10 @@ class Configuration:
 
 
 def export_fichier(n, m, dict_a_sauv):
-    # On transforme le dict de configuration en un dict simple de s_opt.
+    # On transforme le dict de configuration en un tableau simple de s_opt.
     dict_s_opt = dict()
-    for key in dict_a_sauv:
-        dict_s_opt[key] = dict_a_sauv[key].s_opt
+    for key_table in dict_a_sauv:
+        dict_s_opt[key_table] = dict_a_sauv[key_table].s_opt
 
     with open('data/{}-{}-{}.conf'.format(n, n, m), 'wb') as conf_file:
         pickle.dump(dict_s_opt, conf_file)
@@ -104,6 +104,8 @@ def export_fichier(n, m, dict_a_sauv):
 def main():
     N = 50
     m = [3, 5, 7, 9, 11, 13, 15]
+    # m = [5, 7, 9, 11, 13, 15]
+    # m = [3]
     for M in m:
         # M = 7
         Mp = M // 2
