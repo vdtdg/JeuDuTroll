@@ -84,7 +84,11 @@ class Interface:
 
     def lancer_simulation(self):
         print("Debug : On a appuyé sur le bouton lancer")
-        chart.affiche_graphe(self.switch_strategie(self.strategie_j1.get()), self.switch_strategie(self.strategie_j1.get()), int(self.nb_partie.get()), int(self.nb_pierre.get()), int(self.nb_case.get()))
+        chart.affiche_graphe(self.switch_strategie(self.strategie_j1.get()),
+                             self.switch_strategie(self.strategie_j2.get()),
+                             int(self.nb_partie.get()),
+                             int(self.nb_pierre.get()),
+                             int(self.nb_case.get()))
         newImage = PhotoImage(file="graph.png")
         self.label.configure(image=newImage)
         self.label.image = newImage
